@@ -1,12 +1,11 @@
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { DashboardQueryData, DashboardSummary } from '../models/dashboard.models';
-import { map, Observable } from 'rxjs';
 import { GET_DASHBOARD } from '../dashboard.queries';
 import { Apollo } from "apollo-angular";
 import QueryResult = Apollo.QueryResult;
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class DashboardService {
   private apollo: Apollo = inject(Apollo);
@@ -19,10 +18,7 @@ export class DashboardService {
     this.loading.set(true);
     this.error.set("");
 
-    this.apollo
-      .query<DashboardQueryData>({
-        query: GET_DASHBOARD,
-      })
+    this.apollo.query<DashboardQueryData>({query: GET_DASHBOARD})
       .subscribe({
         next: (result: QueryResult<DashboardQueryData>): void => {
           if (!result?.data) return;

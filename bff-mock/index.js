@@ -7,8 +7,23 @@ const typeDefs = gql`
     remaining: Float!
   }
 
+  type Expense {
+    id: ID!
+    amount: Float!
+    currency: String!
+  }
+
+  input CreateExpenseInput {
+    amount: Float!
+    currency: String!
+  }
+
   type Query {
     dashboard: Dashboard!
+  }
+
+  type Mutation {
+    createExpense(input: CreateExpenseInput!): Expense!
   }
 `;
 
@@ -18,6 +33,13 @@ const resolvers = {
             totalSpent: 420,
             currency: "EUR",
             remaining: 580,
+        }),
+    },
+    Mutation: {
+        createExpense: (_, { input }) => ({
+            id: String(Date.now()),
+            amount: input.amount,
+            currency: input.currency,
         }),
     },
 };
