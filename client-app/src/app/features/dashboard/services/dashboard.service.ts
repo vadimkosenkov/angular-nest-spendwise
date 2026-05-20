@@ -1,5 +1,5 @@
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
-import { DashboardQueryData, DashboardSummary } from '../models/dashboard.models';
+import { DashboardQueryData, DashboardSummary } from "@spendwise/shared-types";
 import { GET_DASHBOARD } from '../dashboard.queries';
 import { Apollo } from "apollo-angular";
 import QueryResult = Apollo.QueryResult;

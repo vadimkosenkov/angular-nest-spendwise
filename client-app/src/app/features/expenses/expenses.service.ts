@@ -1,7 +1,9 @@
 import { inject, Injectable } from "@angular/core";
 import { Apollo } from "apollo-angular";
 import { CREATE_EXPENSE } from "./expenses.mutations";
-import { CreateExpenseInput, CreateExpenseResponse } from "./expenses.models";
+import { CreateExpenseInput, CreateExpenseMutationData } from "@spendwise/shared-types";
+import { Observable } from "rxjs";
+import { ApolloClient } from "@apollo/client/core";
 
 @Injectable({
   providedIn: "root",
@@ -9,8 +11,8 @@ import { CreateExpenseInput, CreateExpenseResponse } from "./expenses.models";
 export class ExpensesService {
   private apollo: Apollo = inject(Apollo);
 
-  createExpense(input: CreateExpenseInput) {
-    return this.apollo.mutate<CreateExpenseResponse>({
+  createExpense(input: CreateExpenseInput): Observable<ApolloClient.MutateResult<CreateExpenseMutationData>> {
+    return this.apollo.mutate<CreateExpenseMutationData>({
       mutation: CREATE_EXPENSE,
       variables: { input }
     });

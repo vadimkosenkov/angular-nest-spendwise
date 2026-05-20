@@ -1,7 +1,7 @@
 import { Component, effect, inject, WritableSignal } from "@angular/core";
 import { IonicModule } from "@ionic/angular";
 import { DashboardService } from "./services/dashboard.service";
-import { DashboardSummary } from "./models/dashboard.models";
+import { DashboardSummary } from "@spendwise/shared-types";
 import { ExpenseFormComponent } from "../expenses/expense-form/expense-form.component";
 
 @Component({

@@ -13,7 +13,13 @@
     "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "paths": {}
+//    "paths": {
+//      "@spendwise/shared-types": ["./shared-types/src/index.ts"],
+//      "shared-types": ["./shared-types/src/index.ts"]
+//    }
+    "paths": {
+      "@spendwise/shared-types": ["./shared-types/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

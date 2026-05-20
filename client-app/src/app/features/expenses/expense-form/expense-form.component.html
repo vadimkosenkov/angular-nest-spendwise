@@ -15,6 +15,8 @@
 
     <ion-item>
       <ion-select
+        label="Currency"
+        labelPlacement="floating"
         [ngModel]="currency()"
         (ngModelChange)="currency.set($event)"
       >
@@ -23,6 +25,12 @@
       </ion-select>
     </ion-item>
 
-    <ion-button expand="block" (click)="submit()" [disabled]="loading()">Add</ion-button>
+    <ion-button
+        expand="block"
+        (click)="submit()"
+        [disabled]="loading()"
+    >
+        Add Expense
+    </ion-button>
   </ion-card-content>
 </ion-card>
