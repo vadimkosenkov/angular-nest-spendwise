@@ -23,3 +23,9 @@ coverage/
 
 # Misc
 .tmp/
+
+# NX
+.nx/cache
+.nx/workspace-data
+.angular
+vitest.config.*.timestamp*

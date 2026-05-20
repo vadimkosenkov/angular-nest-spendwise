@@ -5,8 +5,9 @@ and analytics.
 
 ## Tech stack
 - Angular + Ionic
-- Spring Boot
+- Nx
+- NestJS
 - GraphQL
 - RabbitMQ
 - PostgreSQL
-- Docker / Kubernetes
+- Prisma ORM

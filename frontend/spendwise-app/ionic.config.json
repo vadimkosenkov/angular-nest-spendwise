@@ -1,7 +1,0 @@
-{
-  "name": "spendwise-app",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "angular-standalone"
-}
