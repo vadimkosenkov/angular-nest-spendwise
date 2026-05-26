@@ -20,15 +20,16 @@
         [ngModel]="currency()"
         (ngModelChange)="currency.set($event)"
       >
-        <ion-select-option value="EUR">EUR</ion-select-option>
-        <ion-select-option value="USD">USD</ion-select-option>
+        @for (currency of currencies; track currency) {
+          <ion-select-option [value]="currency">{{ currency }}</ion-select-option>
+        }
       </ion-select>
     </ion-item>
 
     <ion-button
         expand="block"
         (click)="submit()"
-        [disabled]="loading()"
+        [disabled]="loading() || !amount()"
     >
         Add Expense
     </ion-button>

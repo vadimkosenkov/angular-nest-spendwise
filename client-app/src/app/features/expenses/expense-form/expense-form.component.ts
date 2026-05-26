@@ -2,6 +2,7 @@ import { Component, inject, signal, WritableSignal } from "@angular/core";
 import { IonicModule } from "@ionic/angular";
 import { FormsModule } from "@angular/forms";
 import { ExpensesService } from "../expenses.service";
+import { Currency } from "@spendwise/shared-types";
 
 @Component({
   selector: "app-expense-form",
@@ -11,9 +12,11 @@ import { ExpensesService } from "../expenses.service";
 })
 export class ExpenseFormComponent {
   private expensesService: ExpensesService = inject(ExpensesService);
+  protected readonly currencies: Currency[] = Object.values(Currency);
+
 
   amount: WritableSignal<number | null> = signal(null);
-  currency: WritableSignal<string> = signal("EUR");
+  currency: WritableSignal<Currency> = signal(Currency.USD);
   loading: WritableSignal<boolean> = signal(false);
 
   submit(): void {
