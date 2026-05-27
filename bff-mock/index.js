@@ -1,4 +1,7 @@
-const { ApolloServer, gql } = require('apollo-server');
+const {ApolloServer, gql} = require('apollo-server');
+
+const MONTHLY_BUDGET = 2000;
+const expenses = [];
 
 const typeDefs = gql`
   type Dashboard {
@@ -27,25 +30,33 @@ const typeDefs = gql`
   }
 `;
 
+// TODO: support multi-currency aggregation
 const resolvers = {
-    Query: {
-        dashboard: () => ({
-            totalSpent: 420,
-            currency: "EUR",
-            remaining: 580,
-        }),
+  Query: {
+    dashboard: () => {
+      const totalSpent = expenses.reduce((sum, expense) => sum + expense.amount, 0);
+      return {
+        totalSpent,
+        currency: "USD",
+        remaining: MONTHLY_BUDGET - totalSpent,
+      };
     },
-    Mutation: {
-        createExpense: (_, { input }) => ({
-            id: String(Date.now()),
-            amount: input.amount,
-            currency: input.currency,
-        }),
+  },
+  Mutation: {
+    createExpense: (_, {input}) => {
+      const expense = {
+        id: String(Date.now()),
+        amount: input.amount,
+        currency: input.currency,
+      };
+      expenses.push(expense);
+      return expense;
     },
+  },
 };
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({typeDefs, resolvers});
 
-server.listen({ port: 8080 }).then(({ url }) => {
-    console.log(`🚀 Server ready at ${url}`);
+server.listen({port: 8080}).then(({url}) => {
+  console.log(`🚀 Server ready at ${url}`);
 });
