@@ -65,7 +65,7 @@ export class ExpenseFormComponent {
 
   getAmountErrorMessage(): string {
     const control = this.expenseForm.get("amount");
-    if (!control || control.valid || (!control.dirty && !control.touched)) {
+    if (!control || control.valid || control.untouched) {
       return "";
     }
 
