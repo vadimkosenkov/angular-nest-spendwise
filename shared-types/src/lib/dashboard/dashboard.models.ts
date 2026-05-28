@@ -1,6 +1,8 @@
+import { Currency } from "../common/currency.enum";
+
 export interface DashboardSummary {
   totalSpent: number;
-  currency: string;
+  currency: Currency;
   remaining: number;
 }
 

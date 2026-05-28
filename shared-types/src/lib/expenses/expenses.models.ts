@@ -1,6 +1,8 @@
+import { Currency } from "../common/currency.enum";
+
 export interface CreateExpenseInput {
   amount: number;
-  currency: string;
+  currency: Currency;
 }
 
 export interface CreateExpenseMutationData {
@@ -10,5 +12,5 @@ export interface CreateExpenseMutationData {
 export interface ExpenseDto {
   id: string;
   amount: number;
-  currency: string;
+  currency: Currency;
 }

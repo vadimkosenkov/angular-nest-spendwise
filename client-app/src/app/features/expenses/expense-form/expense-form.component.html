@@ -4,33 +4,38 @@
   </ion-card-header>
 
   <ion-card-content>
-    <ion-item>
-      <ion-input
-        type="number"
-        placeholder="Amount"
-        [ngModel]="amount()"
-        (ngModelChange)="amount.set($event)"
-      />
-    </ion-item>
+    <form [formGroup]="expenseForm" (ngSubmit)="submit()">
+      <ion-item>
+        <ion-input
+          min="0"
+          type="number"
+          label="Amount"
+          labelPlacement="floating"
+          formControlName="amount"
+          [errorText]="getAmountErrorMessage()"
+        />
+      </ion-item>
+      <ion-item lines="none">
+        <ion-select
+          label="Currency"
+          labelPlacement="floating"
+          formControlName="currency"
+        >
+          @for (currency of currencies; track currency) {
+            <ion-select-option [value]="currency">
+              {{ currency }}
+            </ion-select-option>
+          }
+        </ion-select>
+      </ion-item>
 
-    <ion-item>
-      <ion-select
-        label="Currency"
-        labelPlacement="floating"
-        [ngModel]="currency()"
-        (ngModelChange)="currency.set($event)"
-      >
-        <ion-select-option value="EUR">EUR</ion-select-option>
-        <ion-select-option value="USD">USD</ion-select-option>
-      </ion-select>
-    </ion-item>
-
-    <ion-button
+      <ion-button
+        type="submit"
         expand="block"
-        (click)="submit()"
-        [disabled]="loading()"
-    >
+        [disabled]="disableSubmit()"
+      >
         Add Expense
-    </ion-button>
+      </ion-button>
+    </form>
   </ion-card-content>
 </ion-card>
