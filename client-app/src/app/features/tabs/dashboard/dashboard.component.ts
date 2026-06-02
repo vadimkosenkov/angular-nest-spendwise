@@ -1,4 +1,4 @@
-import { Component, effect, inject, WritableSignal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, effect, inject, WritableSignal } from "@angular/core";
 import { IonicModule } from "@ionic/angular";
 import { DashboardSummary } from "@spendwise/shared-types";
 import { ExpenseFormComponent } from "../expenses/expense-form/expense-form.component";
@@ -9,7 +9,8 @@ import { DashboardStore } from "./dashboard.store";
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
   imports: [IonicModule, ExpenseFormComponent],
-  providers: [DashboardStore]
+  providers: [DashboardStore],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent {
   private dashboardStore: DashboardStore = inject(DashboardStore);

@@ -5,8 +5,9 @@ import { RouteReuseStrategy, provideRouter, withPreloading, PreloadAllModules } 
 import { provideHttpClient } from "@angular/common/http";
 import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalone';
 import { routes } from "./app/app.routes";
+import { registerIcons } from "./app/core/icons/icons";
 
-// bootstrapApplication(App, appConfig).catch((err) => console.error(err));
+registerIcons();
 
 bootstrapApplication(App, {
     providers: [

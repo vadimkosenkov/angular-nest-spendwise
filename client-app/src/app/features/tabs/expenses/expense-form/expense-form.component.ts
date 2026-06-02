@@ -1,4 +1,4 @@
-import { Component, inject, signal, WritableSignal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject, signal, WritableSignal } from "@angular/core";
 import { IonicModule } from "@ionic/angular";
 import {
   FormControl,
@@ -21,6 +21,7 @@ type ExpenseForm = {
   templateUrl: "./expense-form.component.html",
   styleUrls: ["./expense-form.component.scss"],
   imports: [IonicModule, ReactiveFormsModule],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ExpenseFormComponent {
   private expensesService: ExpensesService = inject(ExpensesService);
