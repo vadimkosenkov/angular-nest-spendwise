@@ -3,8 +3,9 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
     {
         path: "",
-        redirectTo: "tabs/dashboard",
-        pathMatch: "full",
+        loadComponent: () =>
+          import("./features/onboarding/onboarding.component")
+            .then((m) => m.OnboardingComponent),
     },
 
     {
@@ -44,5 +45,10 @@ export const routes: Routes = [
                 pathMatch: "full",
             },
         ],
+    },
+
+    {
+        path: "**",
+        redirectTo: "",
     },
 ];
