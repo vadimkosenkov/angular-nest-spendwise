@@ -2,13 +2,14 @@ import { ChangeDetectionStrategy, Component, effect, inject, WritableSignal } fr
 import { IonicModule } from "@ionic/angular";
 import { DashboardSummary } from "@spendwise/shared-types";
 import { ExpenseFormComponent } from "../expenses/expense-form/expense-form.component";
+import { FormatCurrencyPipe } from "../../../shared/pipes/format-currency.pipe";
 import { DashboardStore } from "./dashboard.store";
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
-  imports: [IonicModule, ExpenseFormComponent],
+  imports: [IonicModule, ExpenseFormComponent, FormatCurrencyPipe],
   providers: [DashboardStore],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -25,4 +26,3 @@ export class DashboardComponent {
     });
   }
 }
-
