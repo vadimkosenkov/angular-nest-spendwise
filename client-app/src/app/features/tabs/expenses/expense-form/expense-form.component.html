@@ -29,6 +29,10 @@
         </ion-select>
       </ion-item>
 
+      @if (error()) {
+        <p class="ion-text-center" style="color: var(--ion-color-danger)">{{ error() }}</p>
+      }
+
       <ion-button
         type="submit"
         expand="block"
