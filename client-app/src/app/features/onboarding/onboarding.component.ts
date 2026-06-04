@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
@@ -32,7 +33,7 @@ type OnboardingSlide = {
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OnboardingComponent {
+export class OnboardingComponent implements AfterViewInit {
   @ViewChild("swiper")
   private swiper?: ElementRef<SwiperElement>;
 
@@ -62,6 +63,12 @@ export class OnboardingComponent {
       description: "Your financial data is encrypted and protected with bank-level security"
     },
   ];
+
+  ngAfterViewInit(): void {
+    if (this.swiper?.nativeElement) {
+      this.swiper.nativeElement.addEventListener("swiperslidechange", this.onSlideChange.bind(this));
+    }
+  }
 
   public nextSlide(): void {
     if (this.isLastSlide()) {
