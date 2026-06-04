@@ -35,12 +35,9 @@ type OnboardingSlide = {
 })
 export class OnboardingComponent implements AfterViewInit {
   @ViewChild("swiper")
-  private swiper?: ElementRef<SwiperElement>;
-
-  public router: Router = inject(Router);
-
+  private swiperRef?: ElementRef<SwiperElement>;
+  private router: Router = inject(Router);
   protected currentSlide: WritableSignal<number> = signal(0);
-
   protected slides: OnboardingSlide[] = [
     {
       title: "Track Expenses",
@@ -65,25 +62,26 @@ export class OnboardingComponent implements AfterViewInit {
   ];
 
   ngAfterViewInit(): void {
-    if (this.swiper?.nativeElement) {
-      this.swiper.nativeElement.addEventListener("swiperslidechange", this.onSlideChange.bind(this));
+    if (this.swiperRef?.nativeElement) {
+      this.swiperRef.nativeElement.addEventListener("swiperslidechange", this.onSlideChange.bind(this));
     }
   }
 
-  public nextSlide(): void {
+  protected nextSlide(): void {
     if (this.isLastSlide()) {
+      localStorage.setItem("onboardingCompleted", "true");
       void this.router.navigateByUrl("/tabs/dashboard");
       return;
     }
-    this.swiper?.nativeElement.swiper?.slideNext();
+    this.swiperRef?.nativeElement.swiper?.slideNext();
   }
 
   protected isLastSlide(): boolean {
     return this.currentSlide() === this.slides.length - 1;
   }
 
-  public onSlideChange(): void {
-    const activeIndex: number = this.swiper?.nativeElement.swiper?.activeIndex ?? 0;
+  private onSlideChange(): void {
+    const activeIndex: number = this.swiperRef?.nativeElement.swiper?.activeIndex ?? 0;
     this.currentSlide.set(activeIndex);
   }
 }
