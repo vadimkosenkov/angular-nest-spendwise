@@ -29,12 +29,12 @@
 <!--        TODO improve the card UI-->
         <p>
           Total spent:
-          <strong>{{ dashboard()?.totalSpent }} {{ dashboard()?.currency }}</strong>
+          <strong>{{ dashboard()?.totalSpent | formatCurrency: dashboard()?.currency }}</strong>
         </p>
 
         <p>
           Remaining:
-          <strong>{{ dashboard()?.remaining }} {{ dashboard()?.currency }}</strong>
+          <strong>{{ dashboard()?.remaining | formatCurrency: dashboard()?.currency }}</strong>
         </p>
       </ion-card-content>
     </ion-card>

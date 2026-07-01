@@ -1,34 +1,29 @@
-import { inject, Injectable, signal, WritableSignal } from "@angular/core";
+import { inject, Injectable, WritableSignal } from "@angular/core";
 import { DashboardService } from "./dashboard.service";
 import { DashboardSummary } from "@spendwise/shared-types";
-import { finalize } from "rxjs";
+import { LoadingState } from "../../../shared/utils/loading-state";
+import { signal } from "@angular/core";
 
 @Injectable({
   providedIn: "root",
 })
 export class DashboardStore {
   private dashboardService: DashboardService = inject(DashboardService);
+  private state: LoadingState = new LoadingState();
+
   public dashboard: WritableSignal<DashboardSummary | null> = signal(null);
-  public loading: WritableSignal<boolean> = signal(false);
-  public error: WritableSignal<string> = signal("");
+  public loading: WritableSignal<boolean> = this.state.loading;
+  public error: WritableSignal<string> = this.state.error;
 
   public loadDashboard(): void {
-    this.loading.set(true);
-    this.error.set("");
-
-    this.dashboardService.loadDashboard()
-      .pipe(
-        finalize(() => {
-          this.loading.set(false);
-        })
-      )
-      .subscribe({
+    this.state.execute(
+      this.dashboardService.loadDashboard(),
+      {
         next: (dashboard: DashboardSummary): void => {
           this.dashboard.set(dashboard);
         },
-        error: (): void => {
-          this.error.set("Failed to load dashboard");
-        }
-      });
+      },
+      "Failed to load dashboard"
+    );
   }
 }

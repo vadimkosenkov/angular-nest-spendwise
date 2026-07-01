@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal, WritableSignal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject, WritableSignal } from "@angular/core";
 import { IonicModule } from "@ionic/angular";
 import {
   FormControl,
@@ -9,7 +9,8 @@ import {
 import { ExpensesService } from "../expenses.service";
 import { DashboardStore } from "../../dashboard/dashboard.store";
 import { Currency } from "@spendwise/shared-types";
-import { finalize } from "rxjs";
+import { LoadingState } from "../../../../shared/utils/loading-state";
+import { getFieldErrorMessage } from "../../../../shared/utils/form-validation";
 
 type ExpenseForm = {
   amount: FormControl<number | null>;
@@ -26,6 +27,7 @@ type ExpenseForm = {
 export class ExpenseFormComponent {
   private expensesService: ExpensesService = inject(ExpensesService);
   private dashboardStore: DashboardStore = inject(DashboardStore);
+  private state: LoadingState = new LoadingState();
   protected readonly currencies: Currency[] = Object.values(Currency);
 
   protected expenseForm: FormGroup<ExpenseForm> = new FormGroup<ExpenseForm>({
@@ -35,7 +37,7 @@ export class ExpenseFormComponent {
     currency: new FormControl<Currency>(Currency.USD, { validators: [Validators.required], nonNullable: true }),
   });
 
-  loading: WritableSignal<boolean> = signal(false);
+  loading: WritableSignal<boolean> = this.state.loading;
 
   submit(): void {
     if (this.disableSubmit()) return;
@@ -43,21 +45,15 @@ export class ExpenseFormComponent {
     const { amount, currency } = this.expenseForm.getRawValue();
     if (amount === null) return;
 
-    this.loading.set(true);
-
-    this.expensesService.createExpense({
-      amount,
-      currency
-    })
-      .pipe(finalize(() => {
-        this.loading.set(false);
-      }))
-      .subscribe({
+    this.state.execute(
+      this.expensesService.createExpense({ amount, currency }),
+      {
         next: (): void => {
           this.expenseForm.controls.amount.reset(null);
           this.dashboardStore.loadDashboard();
         },
-      });
+      }
+    );
   }
 
   disableSubmit(): boolean {
@@ -65,17 +61,9 @@ export class ExpenseFormComponent {
   }
 
   getAmountErrorMessage(): string {
-    const control = this.expenseForm.get("amount");
-    if (!control || control.valid || control.untouched) {
-      return "";
-    }
-
-    if (control?.hasError("required")) {
-      return "Amount is required";
-    }
-    if (control?.hasError('min')) {
-      return "Amount must be a positive number";
-    }
-    return "";
+    return getFieldErrorMessage(this.expenseForm.get("amount"), [
+      { error: "required", message: "Amount is required" },
+      { error: "min", message: "Amount must be a positive number" },
+    ]);
   }
 }

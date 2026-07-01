@@ -3,7 +3,7 @@ import { Apollo } from "apollo-angular";
 import { CREATE_EXPENSE } from "./expenses.mutations";
 import { CreateExpenseInput, CreateExpenseMutationData } from "@spendwise/shared-types";
 import { Observable } from "rxjs";
-import { ApolloClient } from "@apollo/client/core";
+import { executeMutation } from "../../../shared/utils/graphql.helpers";
 
 @Injectable({
   providedIn: "root",
@@ -11,10 +11,11 @@ import { ApolloClient } from "@apollo/client/core";
 export class ExpensesService {
   private apollo: Apollo = inject(Apollo);
 
-  createExpense(input: CreateExpenseInput): Observable<ApolloClient.MutateResult<CreateExpenseMutationData>> {
-    return this.apollo.mutate<CreateExpenseMutationData>({
-      mutation: CREATE_EXPENSE,
-      variables: { input }
-    });
+  createExpense(input: CreateExpenseInput): Observable<CreateExpenseMutationData> {
+    return executeMutation<CreateExpenseMutationData, { input: CreateExpenseInput }>(
+      this.apollo,
+      CREATE_EXPENSE,
+      { input }
+    );
   }
 }
