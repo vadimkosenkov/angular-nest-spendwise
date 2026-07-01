@@ -3,7 +3,16 @@
 // https://www.figma.com/colors/ultramarine-blue/
 
 :root {
-  --ion-color-primary: #4166F5;
-  --ion-color-secondary: #3550B8;
-  --ion-color-tertiary:  #6D3EF5;
+  --brand-primary: #4166F5;
+  --brand-primary-dark: #3550B8;
+  --brand-text: #0C1243;
+
+  --ion-color-primary: var(--brand-primary);
+  --ion-color-secondary: var(--brand-primary-dark);
+  --ion-text-color: var(--brand-text);
+}
+
+html.ios,
+html.md {
+  --ion-font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }

@@ -1,0 +1,27 @@
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="onboarding-layout ion-padding-vertical">
+    <ion-img src="images/app-logo.png" alt="App logo" class="ion-padding-top"></ion-img>
+
+    <swiper-container
+      #swiper
+      class="onboarding-swiper"
+      pagination="true"
+      slides-per-view="1"
+      effect="coverflow"
+    >
+      @for (slide of slides; track slide.title) {
+        <swiper-slide>
+          <div class="slide-content">
+            <ion-icon [name]="slide.image" color="primary"></ion-icon>
+            <h1>{{ slide.title }}</h1>
+            <p>{{ slide.description }}</p>
+          </div>
+        </swiper-slide>
+      }
+    </swiper-container>
+
+    <ion-button expand="block" (click)="nextSlide()">
+      {{ isLastSlide() ? "Get Started" : "Next" }}
+    </ion-button>
+  </div>
+</ion-content>
