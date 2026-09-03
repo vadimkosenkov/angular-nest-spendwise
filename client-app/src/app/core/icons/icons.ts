@@ -6,6 +6,9 @@ import {
   settingsOutline,
   diamond,
   diamondOutline,
+  cartOutline,
+  fingerPrintOutline,
+  cashOutline
 } from "ionicons/icons";
 
 export function registerIcons(): void {
@@ -15,5 +18,8 @@ export function registerIcons(): void {
     settingsOutline,
     diamond,
     diamondOutline,
+    cartOutline,
+    fingerPrintOutline,
+    cashOutline
   });
 }

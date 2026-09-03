@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, inject, WritableSignal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject, OnInit, WritableSignal } from "@angular/core";
 import { IonicModule } from "@ionic/angular";
 import { DashboardSummary } from "@spendwise/shared-types";
 import { ExpenseFormComponent } from "../expenses/expense-form/expense-form.component";
@@ -12,17 +12,15 @@ import { DashboardStore } from "./dashboard.store";
   providers: [DashboardStore],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   private dashboardStore: DashboardStore = inject(DashboardStore);
 
   public dashboard: WritableSignal<DashboardSummary | null> = this.dashboardStore.dashboard;
   public loading: WritableSignal<boolean> = this.dashboardStore.loading;
   public error: WritableSignal<string> = this.dashboardStore.error;
 
-  constructor() {
-    effect((): void => {
-      this.dashboardStore.loadDashboard();
-    });
+  ngOnInit() {
+    this.dashboardStore.loadDashboard();
   }
 }
 

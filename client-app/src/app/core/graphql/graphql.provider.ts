@@ -4,8 +4,7 @@ import { ErrorLink } from '@apollo/client/link/error';
 import { CombinedGraphQLErrors } from '@apollo/client/errors';
 import { provideApollo } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
-
-const uri = 'http://localhost:8080/graphql';
+import { environment } from '../../../environments/environment';
 
 export function apolloOptionsFactory(): ApolloClient.Options {
   const httpLink = inject(HttpLink);
@@ -23,7 +22,7 @@ export function apolloOptionsFactory(): ApolloClient.Options {
   });
 
   return {
-    link: ApolloLink.from([errorLink, httpLink.create({ uri })]),
+    link: ApolloLink.from([errorLink, httpLink.create({ uri: environment.graphqlUri })]),
     cache: new InMemoryCache(),
   };
 }
