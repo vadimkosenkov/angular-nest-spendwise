@@ -1,5 +1,7 @@
 import { inject } from '@angular/core';
-import { ApolloClient, InMemoryCache } from '@apollo/client/core';
+import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client/core';
+import { ErrorLink } from '@apollo/client/link/error';
+import { CombinedGraphQLErrors } from '@apollo/client/errors';
 import { provideApollo } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { environment } from '../../../environments/environment';
@@ -7,8 +9,20 @@ import { environment } from '../../../environments/environment';
 export function apolloOptionsFactory(): ApolloClient.Options {
   const httpLink = inject(HttpLink);
 
+  const errorLink = new ErrorLink(({ error, operation }) => {
+    if (CombinedGraphQLErrors.is(error)) {
+      for (const err of error.errors) {
+        console.error(
+          `[GraphQL error]: Message: ${err.message}, Operation: ${operation.operationName}, Path: ${err.path?.join('.')}`
+        );
+      }
+    } else {
+      console.error(`[Network error]: ${error.message}, Operation: ${operation.operationName}`);
+    }
+  });
+
   return {
-    link: httpLink.create({ uri: environment.graphqlUri }),
+    link: ApolloLink.from([errorLink, httpLink.create({ uri: environment.graphqlUri })]),
     cache: new InMemoryCache(),
   };
 }

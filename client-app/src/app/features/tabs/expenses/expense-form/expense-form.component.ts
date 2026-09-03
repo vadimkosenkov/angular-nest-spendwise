@@ -36,6 +36,7 @@ export class ExpenseFormComponent {
   });
 
   loading: WritableSignal<boolean> = signal(false);
+  error: WritableSignal<string> = signal("");
 
   submit(): void {
     if (this.disableSubmit()) return;
@@ -44,6 +45,7 @@ export class ExpenseFormComponent {
     if (amount === null) return;
 
     this.loading.set(true);
+    this.error.set("");
 
     this.expensesService.createExpense({
       amount,
@@ -56,6 +58,11 @@ export class ExpenseFormComponent {
         next: (): void => {
           this.expenseForm.controls.amount.reset(null);
           this.dashboardStore.loadDashboard();
+        },
+        error: (err: unknown): void => {
+          const message = err instanceof Error ? err.message : "Failed to create expense";
+          this.error.set(message);
+          console.error("[ExpenseForm] createExpense failed:", err);
         },
       });
   }
