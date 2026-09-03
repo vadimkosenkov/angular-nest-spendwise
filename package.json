@@ -5,7 +5,8 @@
     "ng": "ng",
     "lint": "npx nx lint client-app",
     "build": "npx nx build client-app",
-    "start": "npx nx serve client-app"
+    "start": "npx nx serve client-app",
+    "start:bff": "node bff-mock/index.js"
   },
   "private": true,
   "devDependencies": {
