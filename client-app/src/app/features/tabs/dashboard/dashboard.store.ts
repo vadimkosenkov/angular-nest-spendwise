@@ -22,6 +22,9 @@ export class DashboardStore {
         next: (dashboard: DashboardSummary): void => {
           this.dashboard.set(dashboard);
         },
+        error: (err: unknown): void => {
+          console.error("[DashboardStore] loadDashboard failed:", err);
+        },
       },
       "Failed to load dashboard"
     );

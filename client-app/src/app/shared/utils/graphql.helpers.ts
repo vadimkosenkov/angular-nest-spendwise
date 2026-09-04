@@ -7,6 +7,7 @@ export function executeQuery<TData, TResult>(
   apollo: Apollo,
   query: DocumentNode,
   mapFn: (data: TData) => TResult,
+  errorMessage = "Query returned no data",
   fetchPolicy: FetchPolicy = "network-only"
 ): Observable<TResult> {
   return apollo
@@ -14,26 +15,28 @@ export function executeQuery<TData, TResult>(
     .pipe(
       map((result) => {
         if (!result.data) {
-          throw new Error("Query returned no data");
+          throw new Error(errorMessage);
         }
         return mapFn(result.data);
       })
     );
 }
 
-export function executeMutation<TData, TVariables extends Record<string, unknown>>(
+export function executeMutation<TData, TVariables extends Record<string, unknown>, TResult>(
   apollo: Apollo,
   mutation: DocumentNode,
-  variables: TVariables
-): Observable<TData> {
+  variables: TVariables,
+  mapFn: (data: TData) => TResult,
+  errorMessage = "Mutation returned no data"
+): Observable<TResult> {
   return apollo
     .mutate<TData>({ mutation, variables })
     .pipe(
       map((result) => {
         if (!result.data) {
-          throw new Error("Mutation returned no data");
+          throw new Error(errorMessage);
         }
-        return result.data;
+        return mapFn(result.data);
       })
     );
 }

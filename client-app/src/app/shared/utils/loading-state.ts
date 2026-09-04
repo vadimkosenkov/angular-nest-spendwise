@@ -9,7 +9,7 @@ export class LoadingState {
     source$: Observable<T>,
     handlers: {
       next: (value: T) => void;
-      error?: (message: string) => void;
+      error?: (error: unknown) => void;
     },
     errorMessage = "An unexpected error occurred"
   ): void {
@@ -20,12 +20,9 @@ export class LoadingState {
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
         next: handlers.next,
-        error: (): void => {
-          if (handlers.error) {
-            handlers.error(errorMessage);
-          } else {
-            this.error.set(errorMessage);
-          }
+        error: (error: unknown): void => {
+          this.error.set(errorMessage);
+          handlers.error?.(error);
         },
       });
   }

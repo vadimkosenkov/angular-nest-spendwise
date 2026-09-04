@@ -15,7 +15,8 @@ export class DashboardService {
     return executeQuery<DashboardQueryData, DashboardSummary>(
       this.apollo,
       GET_DASHBOARD,
-      (data) => data.dashboard
+      (data) => data.dashboard,
+      "Dashboard data is missing"
     );
   }
 }

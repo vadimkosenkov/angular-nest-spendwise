@@ -1,4 +1,5 @@
-import { Routes } from '@angular/router';
+import { Routes } from "@angular/router";
+import { onboardingRedirectGuard } from "./core/guards/onboarding.guard";
 
 export const routes: Routes = [
     {
@@ -6,12 +7,19 @@ export const routes: Routes = [
         redirectTo: "tabs/dashboard",
         pathMatch: "full",
     },
+    {
+        path: "onboarding",
+        loadComponent: () =>
+          import("./features/onboarding/onboarding.component")
+            .then((m) => m.OnboardingComponent),
+    },
 
     {
         path: "tabs",
         loadComponent: () =>
           import("./features/tabs/tabs.component")
             .then((m) => m.TabsComponent),
+        canActivate: [onboardingRedirectGuard],
 
         children: [
             {
@@ -44,5 +52,10 @@ export const routes: Routes = [
                 pathMatch: "full",
             },
         ],
+    },
+
+    {
+        path: "**",
+        redirectTo: "tabs/dashboard",
     },
 ];

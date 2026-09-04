@@ -5,7 +5,9 @@
     "ng": "ng",
     "lint": "npx nx lint client-app",
     "build": "npx nx build client-app",
-    "start": "npx nx serve client-app"
+    "start": "npx nx serve client-app",
+    "start:bff": "node bff-mock/index.js",
+    "postinstall": "npm --prefix bff-mock install"
   },
   "private": true,
   "devDependencies": {
@@ -62,6 +64,7 @@
     "apollo-angular": "^14.0.0",
     "graphql": "^16.14.0",
     "ionicons": "^8.0.13",
-    "rxjs": "~7.8.0"
+    "rxjs": "~7.8.0",
+    "swiper": "^12.2.0"
   }
 }
