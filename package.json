@@ -6,7 +6,8 @@
     "lint": "npx nx lint client-app",
     "build": "npx nx build client-app",
     "start": "npx nx serve client-app",
-    "start:bff": "node bff-mock/index.js"
+    "start:bff": "node bff-mock/index.js",
+    "postinstall": "npm --prefix bff-mock install"
   },
   "private": true,
   "devDependencies": {
