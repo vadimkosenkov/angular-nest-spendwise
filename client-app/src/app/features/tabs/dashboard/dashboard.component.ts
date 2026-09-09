@@ -10,15 +10,12 @@ import { DashboardStore } from "./dashboard.store";
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
   imports: [IonicModule, ExpenseFormComponent, FormatCurrencyPipe],
-  providers: [DashboardStore],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent implements OnInit {
   private readonly dashboardStore: DashboardStore = inject(DashboardStore);
 
   protected readonly dashboard: WritableSignal<DashboardSummary | null> = this.dashboardStore.dashboard;
-  public loading: WritableSignal<boolean> = this.dashboardStore.loading;
-  public error: WritableSignal<string> = this.dashboardStore.error;
 
   ngOnInit() {
     this.dashboardStore.loadDashboard();

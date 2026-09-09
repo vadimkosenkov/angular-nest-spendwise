@@ -32,9 +32,9 @@ export class ExpenseFormComponent {
 
   protected readonly expenseForm: FormGroup<ExpenseForm> = new FormGroup<ExpenseForm>({
     amount: new FormControl<number | null>(null, {
-      validators: [Validators.required, Validators.min(0.01)],
-    }),
-    currency: new FormControl<Currency>(Currency.USD, { validators: [Validators.required], nonNullable: true }),
+      validators: [Validators.required, Validators.min(0.01)] }),
+    currency: new FormControl<Currency>(Currency.USD, {
+      validators: [Validators.required], nonNullable: true })
   });
 
   protected readonly loading: WritableSignal<boolean> = this.state.loading;
@@ -54,13 +54,11 @@ export class ExpenseFormComponent {
           this.dashboardStore.loadDashboard();
         },
         error: (err: unknown): void => {
-          if (err instanceof Error) {
-            this.error.set(err.message);
-          }
           console.error("[ExpenseForm] createExpense failed:", err);
         },
       },
-      "Failed to create expense"
+      "Failed to create expense",
+      { global: true }
     );
   }
 

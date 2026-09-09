@@ -12,8 +12,6 @@ export class DashboardStore {
   private readonly state: LoadingState = new LoadingState();
 
   public readonly dashboard: WritableSignal<DashboardSummary | null> = signal(null);
-  public loading: WritableSignal<boolean> = this.state.loading;
-  public error: WritableSignal<string> = this.state.error;
 
   public loadDashboard(): void {
     this.state.execute(
@@ -26,7 +24,8 @@ export class DashboardStore {
           console.error("[DashboardStore] loadDashboard failed:", err);
         },
       },
-      "Failed to load dashboard"
+      "Failed to load dashboard",
+      { global: true }
     );
   }
 }
