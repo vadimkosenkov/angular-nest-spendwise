@@ -7,7 +7,7 @@ import { HttpLink } from 'apollo-angular/http';
 import { environment } from '../../../environments/environment';
 
 export function apolloOptionsFactory(): ApolloClient.Options {
-  const httpLink = inject(HttpLink);
+  const httpLink: HttpLink = inject(HttpLink);
 
   const errorLink = new ErrorLink(({ error, operation }) => {
     if (CombinedGraphQLErrors.is(error)) {

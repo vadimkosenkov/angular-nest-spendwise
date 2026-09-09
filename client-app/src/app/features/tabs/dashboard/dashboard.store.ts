@@ -8,10 +8,10 @@ import { signal } from "@angular/core";
   providedIn: "root",
 })
 export class DashboardStore {
-  private dashboardService: DashboardService = inject(DashboardService);
-  private state: LoadingState = new LoadingState();
+  private readonly dashboardService: DashboardService = inject(DashboardService);
+  private readonly state: LoadingState = new LoadingState();
 
-  public dashboard: WritableSignal<DashboardSummary | null> = signal(null);
+  public readonly dashboard: WritableSignal<DashboardSummary | null> = signal(null);
   public loading: WritableSignal<boolean> = this.state.loading;
   public error: WritableSignal<string> = this.state.error;
 

@@ -2,8 +2,8 @@ import { signal, WritableSignal } from "@angular/core";
 import { Observable, finalize } from "rxjs";
 
 export class LoadingState {
-  readonly loading: WritableSignal<boolean> = signal(false);
-  readonly error: WritableSignal<string> = signal("");
+  public readonly loading: WritableSignal<boolean> = signal(false);
+  public readonly error: WritableSignal<string> = signal("");
 
   execute<T>(
     source$: Observable<T>,

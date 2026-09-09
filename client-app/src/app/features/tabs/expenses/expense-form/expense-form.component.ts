@@ -25,20 +25,20 @@ type ExpenseForm = {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ExpenseFormComponent {
-  private expensesService: ExpensesService = inject(ExpensesService);
-  private dashboardStore: DashboardStore = inject(DashboardStore);
-  private state: LoadingState = new LoadingState();
+  private readonly expensesService: ExpensesService = inject(ExpensesService);
+  private readonly dashboardStore: DashboardStore = inject(DashboardStore);
+  private readonly state: LoadingState = new LoadingState();
   protected readonly currencies: Currency[] = Object.values(Currency);
 
-  protected expenseForm: FormGroup<ExpenseForm> = new FormGroup<ExpenseForm>({
+  protected readonly expenseForm: FormGroup<ExpenseForm> = new FormGroup<ExpenseForm>({
     amount: new FormControl<number | null>(null, {
       validators: [Validators.required, Validators.min(0.01)],
     }),
     currency: new FormControl<Currency>(Currency.USD, { validators: [Validators.required], nonNullable: true }),
   });
 
-  loading: WritableSignal<boolean> = this.state.loading;
-  error: WritableSignal<string> = this.state.error;
+  protected readonly loading: WritableSignal<boolean> = this.state.loading;
+  protected readonly error: WritableSignal<string> = this.state.error;
 
   submit(): void {
     if (this.disableSubmit()) return;

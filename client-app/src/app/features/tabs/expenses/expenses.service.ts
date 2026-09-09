@@ -9,7 +9,7 @@ import { executeMutation } from "../../../shared/utils/graphql.helpers";
   providedIn: "root",
 })
 export class ExpensesService {
-  private apollo: Apollo = inject(Apollo);
+  private readonly apollo: Apollo = inject(Apollo);
 
   createExpense(input: CreateExpenseInput): Observable<ExpenseDto> {
     return executeMutation<CreateExpenseMutationData, { input: CreateExpenseInput }, ExpenseDto>(

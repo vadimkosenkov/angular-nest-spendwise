@@ -9,7 +9,7 @@ import { executeQuery } from "../../../shared/utils/graphql.helpers";
   providedIn: "root",
 })
 export class DashboardService {
-  private apollo: Apollo = inject(Apollo);
+  private readonly apollo: Apollo = inject(Apollo);
 
   loadDashboard(): Observable<DashboardSummary> {
     return executeQuery<DashboardQueryData, DashboardSummary>(

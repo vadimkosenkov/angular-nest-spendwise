@@ -14,9 +14,9 @@ import { DashboardStore } from "./dashboard.store";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent implements OnInit {
-  private dashboardStore: DashboardStore = inject(DashboardStore);
+  private readonly dashboardStore: DashboardStore = inject(DashboardStore);
 
-  public dashboard: WritableSignal<DashboardSummary | null> = this.dashboardStore.dashboard;
+  protected readonly dashboard: WritableSignal<DashboardSummary | null> = this.dashboardStore.dashboard;
   public loading: WritableSignal<boolean> = this.dashboardStore.loading;
   public error: WritableSignal<string> = this.dashboardStore.error;
 

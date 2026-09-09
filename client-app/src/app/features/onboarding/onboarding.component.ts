@@ -35,10 +35,10 @@ type OnboardingSlide = {
 })
 export class OnboardingComponent implements AfterViewInit {
   @ViewChild("swiper")
-  private swiperRef?: ElementRef<SwiperElement>;
-  private router: Router = inject(Router);
-  protected currentSlide: WritableSignal<number> = signal(0);
-  protected slides: OnboardingSlide[] = [
+  private readonly swiperRef?: ElementRef<SwiperElement>;
+  private readonly router: Router = inject(Router);
+  protected readonly currentSlide: WritableSignal<number> = signal(0);
+  protected readonly slides: OnboardingSlide[] = [
     {
       title: "Track Expenses",
       image: "cash-outline",
