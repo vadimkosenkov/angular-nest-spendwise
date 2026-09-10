@@ -11,6 +11,7 @@ import { DashboardStore } from "../../dashboard/dashboard.store";
 import { Currency } from "@spendwise/shared-types";
 import { LoadingState } from "../../../../shared/utils/loading-state";
 import { getFieldErrorMessage } from "../../../../shared/utils/form-validation";
+import { ExpensesStore } from "../expenses.store";
 
 type ExpenseForm = {
   amount: FormControl<number | null>;
@@ -27,6 +28,7 @@ type ExpenseForm = {
 export class ExpenseFormComponent {
   private readonly expensesService: ExpensesService = inject(ExpensesService);
   private readonly dashboardStore: DashboardStore = inject(DashboardStore);
+  private readonly expensesStore: ExpensesStore = inject(ExpensesStore);
   private readonly state: LoadingState = new LoadingState();
   protected readonly currencies: Currency[] = Object.values(Currency);
 
@@ -52,6 +54,7 @@ export class ExpenseFormComponent {
         next: (): void => {
           this.expenseForm.controls.amount.reset(null);
           this.dashboardStore.loadDashboard();
+          this.expensesStore.loadExpenses();
         },
         error: (err: unknown): void => {
           console.error("[ExpenseForm] createExpense failed:", err);

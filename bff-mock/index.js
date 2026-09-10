@@ -29,6 +29,7 @@ const typeDefs = `#graphql
 
   type Query {
     dashboard: Dashboard!
+    expenses: [Expense!]!
   }
 
   type Mutation {
@@ -47,6 +48,7 @@ const resolvers = {
         remaining: MONTHLY_BUDGET - totalSpent,
       };
     },
+    expenses: () => expenses
   },
   Mutation: {
     createExpense: (_, { input }) => {

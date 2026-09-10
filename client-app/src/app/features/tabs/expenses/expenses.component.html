@@ -5,6 +5,23 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <div>Expenses work</div>
+  <ion-list>
+    @for (expense of expenses(); track expense.id) {
+      <ion-item lines="full">
+        <ion-label>
+          <h2>{{ expense.amount }}</h2>
+          <p>{{ expense.currency }}</p>
+        </ion-label>
+      </ion-item>
+    } @empty {
+      <div class="empty-state ion-padding">
+        <div class="empty-state__icon ion-margin-bottom">
+          <ion-icon name="receipt-outline" color="primary"></ion-icon>
+        </div>
+        <h2 class="ion-no-margin ion-margin-bottom">No expenses yet</h2>
+        <p class="ion-no-margin" >Your expenses will appear here once you add your first one.</p>
+      </div>
+    }
+  </ion-list>
 </ion-content>
 
