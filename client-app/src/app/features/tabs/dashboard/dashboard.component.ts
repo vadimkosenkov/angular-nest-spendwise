@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, WritableSignal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject, OnInit } from "@angular/core";
 import { IonicModule } from "@ionic/angular";
-import { DashboardSummary } from "@spendwise/shared-types";
 import { ExpenseFormComponent } from "../expenses/expense-form/expense-form.component";
 import { FormatCurrencyPipe } from "../../../shared/pipes/format-currency.pipe";
 import { DashboardStore } from "./dashboard.store";
@@ -13,9 +12,9 @@ import { DashboardStore } from "./dashboard.store";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent implements OnInit {
-  private readonly dashboardStore: DashboardStore = inject(DashboardStore);
+  private readonly dashboardStore = inject(DashboardStore);
 
-  protected readonly dashboard: WritableSignal<DashboardSummary | null> = this.dashboardStore.dashboard;
+  protected readonly dashboard = this.dashboardStore.dashboard;
 
   ngOnInit() {
     this.dashboardStore.loadDashboard();

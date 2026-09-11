@@ -1,4 +1,4 @@
-import { inject, Injectable, signal, WritableSignal } from "@angular/core";
+import { inject, Injectable, signal } from "@angular/core";
 import { ExpensesService } from "./expenses.service";
 import { LoadingState } from "../../../shared/utils/loading-state";
 import { ExpenseDto } from "@spendwise/shared-types";
@@ -7,17 +7,18 @@ import { ExpenseDto } from "@spendwise/shared-types";
   providedIn: "root",
 })
 export class ExpensesStore {
-  private readonly expensesService: ExpensesService = inject<ExpensesService>(ExpensesService);
-  private readonly state: LoadingState = new LoadingState();
+  private readonly expensesService = inject(ExpensesService);
+  private readonly state = new LoadingState();
 
-  public readonly expenses: WritableSignal<ExpenseDto[]> = signal<ExpenseDto[]>([]);
+  private readonly expensesSignal = signal<ExpenseDto[]>([]);
+  public readonly expenses = this.expensesSignal.asReadonly();
 
   loadExpenses(): void {
     this.state.execute(
       this.expensesService.getExpenses(),
       {
         next: (expenses: ExpenseDto[]) => {
-          this.expenses.set(expenses);
+          this.expensesSignal.set(expenses);
         },
         error: (err: unknown): void => {
           console.error("[ExpensesStore] getExpenses failed:", err);

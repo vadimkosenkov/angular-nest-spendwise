@@ -10,7 +10,7 @@ import { GET_EXPENSES } from "./expenses.queries";
   providedIn: "root",
 })
 export class ExpensesService {
-  private readonly apollo: Apollo = inject(Apollo);
+  private readonly apollo = inject(Apollo);
 
   createExpense(input: CreateExpenseInput): Observable<ExpenseDto> {
     return executeMutation<CreateExpenseMutationData, { input: CreateExpenseInput }, ExpenseDto>(

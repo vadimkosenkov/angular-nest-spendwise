@@ -16,7 +16,7 @@ function extractGraphQLErrorMessage(bodyText: string): string {
 }
 
 export function apolloOptionsFactory(): ApolloClient.Options {
-  const httpLink: HttpLink = inject(HttpLink);
+  const httpLink = inject(HttpLink);
 
   const errorLink = new ErrorLink(({ error, operation }) => {
     if (CombinedGraphQLErrors.is(error)) {

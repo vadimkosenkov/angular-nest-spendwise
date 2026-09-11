@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, WritableSignal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { IonicModule } from "@ionic/angular";
 import {
   FormControl,
@@ -26,10 +26,10 @@ type ExpenseForm = {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ExpenseFormComponent {
-  private readonly expensesService: ExpensesService = inject(ExpensesService);
-  private readonly dashboardStore: DashboardStore = inject(DashboardStore);
-  private readonly expensesStore: ExpensesStore = inject(ExpensesStore);
-  private readonly state: LoadingState = new LoadingState();
+  private readonly expensesService = inject(ExpensesService);
+  private readonly dashboardStore = inject(DashboardStore);
+  private readonly expensesStore = inject(ExpensesStore);
+  private readonly state = new LoadingState();
   protected readonly currencies: Currency[] = Object.values(Currency);
 
   protected readonly expenseForm: FormGroup<ExpenseForm> = new FormGroup<ExpenseForm>({
@@ -39,8 +39,8 @@ export class ExpenseFormComponent {
       validators: [Validators.required], nonNullable: true })
   });
 
-  protected readonly loading: WritableSignal<boolean> = this.state.loading;
-  protected readonly error: WritableSignal<string> = this.state.error;
+  protected readonly loading = this.state.loading;
+  protected readonly error = this.state.error;
 
   submit(): void {
     if (this.disableSubmit()) return;

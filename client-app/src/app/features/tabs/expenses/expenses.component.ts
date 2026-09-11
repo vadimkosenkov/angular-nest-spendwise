@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, WritableSignal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject, OnInit } from "@angular/core";
 import { IonicModule } from "@ionic/angular";
 import { ExpensesStore } from "./expenses.store";
-import { ExpenseDto } from "@spendwise/shared-types";
 
 @Component({
   selector: "app-expenses",
@@ -11,12 +10,11 @@ import { ExpenseDto } from "@spendwise/shared-types";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ExpensesComponent implements OnInit {
-  private readonly expensesStore: ExpensesStore = inject(ExpensesStore);
+  private readonly expensesStore = inject(ExpensesStore);
 
-  protected readonly expenses: WritableSignal<ExpenseDto[]> = this.expensesStore.expenses;
+  protected readonly expenses = this.expensesStore.expenses;
 
   ngOnInit(): void {
     this.expensesStore.loadExpenses();
   }
 }
-

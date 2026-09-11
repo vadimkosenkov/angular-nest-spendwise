@@ -5,8 +5,7 @@ import {
   CUSTOM_ELEMENTS_SCHEMA,
   ElementRef,
   inject, signal,
-  ViewChild,
-  WritableSignal
+  ViewChild
 } from "@angular/core";
 import { IonicModule } from "@ionic/angular";
 import { Router } from "@angular/router";
@@ -36,8 +35,8 @@ type OnboardingSlide = {
 export class OnboardingComponent implements AfterViewInit {
   @ViewChild("swiper")
   private readonly swiperRef?: ElementRef<SwiperElement>;
-  private readonly router: Router = inject(Router);
-  protected readonly currentSlide: WritableSignal<number> = signal(0);
+  private readonly router = inject(Router);
+  protected readonly currentSlide = signal(0);
   protected readonly slides: OnboardingSlide[] = [
     {
       title: "Track Expenses",
@@ -81,7 +80,7 @@ export class OnboardingComponent implements AfterViewInit {
   }
 
   private onSlideChange(): void {
-    const activeIndex: number = this.swiperRef?.nativeElement.swiper?.activeIndex ?? 0;
+    const activeIndex = this.swiperRef?.nativeElement.swiper?.activeIndex ?? 0;
     this.currentSlide.set(activeIndex);
   }
 }

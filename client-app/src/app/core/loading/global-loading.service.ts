@@ -5,7 +5,7 @@ import { LoadingController } from "@ionic/angular/standalone";
   providedIn: "root",
 })
 export class GlobalLoadingService {
-  private readonly loadingController: LoadingController = inject(LoadingController);
+  private readonly loadingController = inject(LoadingController);
   private count = 0;
   private loadingElement: HTMLIonLoadingElement | null = null;
   private operationQueue: Promise<void> = Promise.resolve();
@@ -30,7 +30,7 @@ export class GlobalLoadingService {
 
   private async reconcile(): Promise<void> {
     if (this.count > 0 && !this.loadingElement) {
-      const element: HTMLIonLoadingElement = await this.loadingController.create({
+      const element = await this.loadingController.create({
         message: "Loading...",
       });
 
@@ -44,7 +44,7 @@ export class GlobalLoadingService {
     }
 
     if (this.count <= 0 && this.loadingElement) {
-      const element: HTMLIonLoadingElement = this.loadingElement;
+      const element = this.loadingElement;
       this.loadingElement = null;
       await element.dismiss();
     }
