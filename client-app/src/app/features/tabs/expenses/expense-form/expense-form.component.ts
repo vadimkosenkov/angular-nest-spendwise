@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, WritableSignal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { IonicModule } from "@ionic/angular";
 import {
   FormControl,
@@ -11,6 +11,7 @@ import { DashboardStore } from "../../dashboard/dashboard.store";
 import { Currency } from "@spendwise/shared-types";
 import { LoadingState } from "../../../../shared/utils/loading-state";
 import { getFieldErrorMessage } from "../../../../shared/utils/form-validation";
+import { ExpensesStore } from "../expenses.store";
 
 type ExpenseForm = {
   amount: FormControl<number | null>;
@@ -25,20 +26,21 @@ type ExpenseForm = {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ExpenseFormComponent {
-  private expensesService: ExpensesService = inject(ExpensesService);
-  private dashboardStore: DashboardStore = inject(DashboardStore);
-  private state: LoadingState = new LoadingState();
+  private readonly expensesService = inject(ExpensesService);
+  private readonly dashboardStore = inject(DashboardStore);
+  private readonly expensesStore = inject(ExpensesStore);
+  private readonly state = new LoadingState();
   protected readonly currencies: Currency[] = Object.values(Currency);
 
-  protected expenseForm: FormGroup<ExpenseForm> = new FormGroup<ExpenseForm>({
+  protected readonly expenseForm: FormGroup<ExpenseForm> = new FormGroup<ExpenseForm>({
     amount: new FormControl<number | null>(null, {
-      validators: [Validators.required, Validators.min(0.01)],
-    }),
-    currency: new FormControl<Currency>(Currency.USD, { validators: [Validators.required], nonNullable: true }),
+      validators: [Validators.required, Validators.min(0.01)] }),
+    currency: new FormControl<Currency>(Currency.USD, {
+      validators: [Validators.required], nonNullable: true })
   });
 
-  loading: WritableSignal<boolean> = this.state.loading;
-  error: WritableSignal<string> = this.state.error;
+  protected readonly loading = this.state.loading;
+  protected readonly error = this.state.error;
 
   submit(): void {
     if (this.disableSubmit()) return;
@@ -52,15 +54,14 @@ export class ExpenseFormComponent {
         next: (): void => {
           this.expenseForm.controls.amount.reset(null);
           this.dashboardStore.loadDashboard();
+          this.expensesStore.loadExpenses();
         },
         error: (err: unknown): void => {
-          if (err instanceof Error) {
-            this.error.set(err.message);
-          }
           console.error("[ExpenseForm] createExpense failed:", err);
         },
       },
-      "Failed to create expense"
+      "Failed to create expense",
+      { global: true }
     );
   }
 

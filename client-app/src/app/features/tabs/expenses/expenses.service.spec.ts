@@ -42,12 +42,10 @@ describe('ExpensesService', () => {
 
   it('should return the mutation result observable', async () => {
     const input = { amount: 10, currency: Currency.EUR };
-    const mockResult = {
-      data: { createExpense: { id: '2', amount: 10, currency: Currency.EUR } }
-    };
-    apolloMock.mutate.mockReturnValue(of(mockResult));
+    const expense = { id: '2', amount: 10, currency: Currency.EUR };
+    apolloMock.mutate.mockReturnValue(of({ data: { createExpense: expense } }));
 
     const result = await firstValueFrom(service.createExpense(input));
-    expect(result).toEqual(mockResult);
+    expect(result).toEqual(expense);
   });
 });
